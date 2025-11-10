@@ -1,0 +1,20 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: csv_backend
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/csv
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create   # options: create, create-drop, update, validate, none
+    show-sql: true       # logs SQL queries
+    properties:
+      hibernate:
+        format_sql: true
