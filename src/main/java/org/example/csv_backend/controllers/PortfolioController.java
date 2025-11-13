@@ -1,28 +1,53 @@
 package org.example.csv_backend.controllers;
 
-
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.csv_backend.entities.Portfolio;
+import org.example.csv_backend.dtos.PortfolioCreateDto;
+import org.example.csv_backend.dtos.PortfolioResponseDto;
+import org.example.csv_backend.dtos.PortfolioSummaryDto;
 import org.example.csv_backend.services.PortfolioService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/portfolios")
+@RequestMapping("/api/portfolios")
 @CrossOrigin(
         origins = "http://localhost:3000",
         allowedHeaders = "*",
-        methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.OPTIONS}
+        methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
+                RequestMethod.DELETE, RequestMethod.OPTIONS}
 )
 public class PortfolioController {
 
     private final PortfolioService portfolioService;
 
-    public ResponseEntity<Portfolio> createPortfolio() {
-        return null;
+    @PostMapping
+    public ResponseEntity<PortfolioResponseDto> createPortfolio(
+            @RequestBody @Valid PortfolioCreateDto portfolioDto
+    ) {
+        PortfolioResponseDto created = portfolioService.createPortfolio(portfolioDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PortfolioSummaryDto>> getAllPortfolios() {
+        List<PortfolioSummaryDto> portfolios = portfolioService.getAllPortfolios();
+        return ResponseEntity.ok(portfolios);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PortfolioResponseDto> getPortfolioById(@PathVariable Long id) {
+        PortfolioResponseDto portfolio = portfolioService.getPortfolioById(id);
+        return ResponseEntity.ok(portfolio);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePortfolio(@PathVariable Long id) {
+        portfolioService.deletePortfolio(id);
+        return ResponseEntity.noContent().build();
     }
 }
