@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -13,15 +14,15 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "account")
+@EntityListeners(AuditingEntityListener.class)
 public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, unique = true, updatable = false)
     private Long id;
 
-    @Column(name = "auth_id", unique = true, nullable = false, updatable = false)
-    private String authId;
+    @Column(name = "account_id", nullable = false)
+    private String accountId;
 
     @Column(name = "balance", nullable = false)
     private Double balance;
@@ -29,13 +30,14 @@ public class Account {
     @Column(name = "dpd_state", nullable = false)
     private String dpdState;
 
-    @Column(name = "FICO_score", nullable = false)
-    private Integer FICOScore;
+    @Column(name = "fico_score", nullable = false)
+    private Integer ficoScore;
 
-    @ManyToOne
-    @JoinColumn(name = "portfolio_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "portfolio_id", nullable = false)
     private Portfolio portfolio;
 
     @CreatedDate
+    @Column(nullable = false, updatable = false)
     private LocalDateTime uploadedAt;
 }

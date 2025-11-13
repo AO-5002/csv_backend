@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/simulations")
 @CrossOrigin(
-        origins = "http://localhost:3000",
+        origins = "http://localhost:8080",
         allowedHeaders = "*",
         methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.OPTIONS}
 )

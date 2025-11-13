@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/portfolios")
 @CrossOrigin(
-        origins = "http://localhost:3000",
+        origins = "http://localhost:8080",
         allowedHeaders = "*",
         methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
                 RequestMethod.DELETE, RequestMethod.OPTIONS}
