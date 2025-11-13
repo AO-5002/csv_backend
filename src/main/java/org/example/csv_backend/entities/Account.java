@@ -17,12 +17,20 @@ public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, unique = true, updatable = false)
     private Long id;
 
-    private String accountId;
+    @Column(name = "auth_id", unique = true, nullable = false, updatable = false)
+    private String authId;
+
+    @Column(name = "balance", nullable = false)
     private Double balance;
+
+    @Column(name = "dpd_state", nullable = false)
     private String dpdState;
-    private Integer ficoScore;
+
+    @Column(name = "FICO_score", nullable = false)
+    private Integer FICOScore;
 
     @ManyToOne
     @JoinColumn(name = "portfolio_id")
